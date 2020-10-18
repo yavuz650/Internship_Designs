@@ -59,11 +59,11 @@ begin
 	if(large_sign != small_sign)
 	begin
 		leading[4] <= ({5'b0,mantis_sum[26:16]} == 16'b0);
-		val16 = leading[4] ? mantis_sum[15:0] : {5'b0,mantis_sum[26:16]};
+		val16 <= leading[4] ? mantis_sum[15:0] : {5'b0,mantis_sum[26:16]};
 		leading[3] <= (val16[15:8] == 8'b0);
-		val8 = leading[3] ? val16[7:0] : val16[15:8];
+		val8 <= leading[3] ? val16[7:0] : val16[15:8];
 		leading[2] <= (val8[7:4] == 4'b0);
-		val4 = leading[2] ? val8[3:0] : val8[7:4];
+		val4 <= leading[2] ? val8[3:0] : val8[7:4];
 		leading[1] <= val4[3:2] == 2'b0;
 		leading[0] <= leading[1] ? ~val4[1] : ~val4[3];
 		actual_leading <= (leading > 5'b101) ? leading - 5'b101 : 5'b0;
@@ -107,6 +107,12 @@ begin
 				
 			result[30:23] <= large_exp;
 		end
+		aligned_sum <= 27'b0;
+		leading <= 5'b0;
+		actual_leading <= 5'b0;
+		val16 <= 16'b0;
+		val8 <= 8'b0;
+		val4 <= 4'b0;
 	end
 	
 	result[31] <= large_sign;
